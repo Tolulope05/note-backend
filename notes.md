@@ -1,4 +1,4 @@
-Fastify handles redirect responses slightly differently than Express. To do a proper redirect with Fastify, return both the status code and the URL, as follows:
+#Fastify handles redirect responses slightly differently than Express. To do a proper redirect with Fastify, return both the status code and the URL, as follows:#
 @Get()
 index(@Res() res) {
   res.status(302).redirect('/login');
@@ -17,3 +17,12 @@ Get('/notes')
     }
 }
     import { NestFactory } from '@nestjs/core';
+
+
+#Route Config#
+You can use the route config feature of Fastify with the @RouteConfig() decorator.
+@RouteConfig({ output: 'hello world' })
+@Get()
+index(@Req() req) {
+  return req.routeConfig.output;
+}
