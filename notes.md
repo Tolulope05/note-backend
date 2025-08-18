@@ -26,3 +26,5 @@ You can use the route config feature of Fastify with the @RouteConfig() decorato
 index(@Req() req) {
   return req.routeConfig.output;
 }
+
+DT: string, boolean, number, array, object, enum, null and undefined, 
