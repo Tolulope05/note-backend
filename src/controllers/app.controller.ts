@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { AppService } from '../providers/app.service';
 import { Observable, of } from 'rxjs';
-import { NoteDTO } from 'src/models/note_dto';
+import { NoteDTO } from 'src/dto/note_dto';
 
 @Controller()
 export class AppController {
