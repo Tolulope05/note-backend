@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Header,
@@ -8,7 +9,9 @@ import {
   Redirect,
   Req,
 } from '@nestjs/common';
-import { AppService } from '../app.service';
+import { AppService } from '../providers/app.service';
+import { Observable, of } from 'rxjs';
+import { NoteDTO } from 'src/models/note_dto';
 
 @Controller()
 export class AppController {
@@ -36,10 +39,6 @@ export class NoteController {
   @Get('wc/*')
   findWc() {
     return 'This route uses a wildcard';
-  }
-  @Post('create')
-  createNote(): object {
-    return { status: 201, body: `This action creates a note` };
   }
 
   // TO UPDATE RESPONSE CODE
@@ -70,5 +69,37 @@ export class NoteController {
     if (vsn && vsn == '5') {
       return { url: 'https://nestjs.com' };
     }
+  }
+  // asynchronous data handling
+  @Get('async')
+  async findAPromise(): Promise<any[]> {
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    return [];
+  }
+  // synchronous data handling
+  @Get('sync')
+  findAllSync(): any[] {
+    return this.appService.findAllSync();
+  }
+  //observable data handling
+  @Get('obx')
+  finaAnObservable(): Observable<any[]> {
+    return of([]);
+  }
+
+  @Post('create-note')
+  createNote(@Body() note: NoteDTO): object {
+    console.log(`json: ${JSON.stringify(note)}`);
+    // Here you would typically save the note to a database
+    // For this example, we just return a success message
+    // and the created note object
+    return { status: 201, body: `This action creates a note`, note };
+  }
+
+  @Get('cats')
+  findAynCall(@Query('age') age: number, @Query('breed') breed: string) {
+    return {
+      data: `This action returns all cats filtered by age: ${age} and breed: ${breed}`,
+    };
   }
 }
